@@ -3,63 +3,111 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
-
-//for fetching appointments data in the database
+use App\Models\Client;
+use App\Models\Invoice;
+// Fetch appointments
 use App\Models\Appointment;
 
 class AdminController extends Controller
 {
-    public function login(Request $request)
-    {
-        // Validate the input
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        // Fetch the admin user from the database
-        $admin = Admin::where('email', $credentials['email'])->first();
-
-        // Check if admin exists and password is correct
-        if ($admin && Hash::check($credentials['password'], $admin->password)) {
-            // Log the admin in (using custom session)
-            session(['admin_id' => $admin->id, 'admin_email' => $admin->email]);
-            return redirect()->intended('/admin/dashboard');
-        }
-
-        // If credentials are invalid, return an error
-        return back()->withErrors(['email' => 'Invalid credentials.'])->onlyInput('email');
-    }
-
+    /**
+     * Show the admin login form
+     */
     public function showLoginForm()
     {
         return view('login-admin');
     }
 
-    //for fetching data from appointment model
+    /**
+     * Handle the admin login
+     */
+    public function login(Request $request)
+    {
+        // Validate the login input
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        // Attempt to log in using the 'admin' guard
+        if (Auth::guard('admin')->attempt($credentials)) {
+            // Regenerate the session
+            $request->session()->regenerate();
+
+            // Redirect to the admin dashboard
+            return redirect()->intended('/admin/dashboard');
+        }
+
+        // If login fails, return with an error message
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ])->onlyInput('email');
+    }
+
+    /**
+     * Display the admin dashboard
+     */
     public function dashboard()
     {
-        $appointments = Appointment::orderBy('time', 'asc')->take(5)->get();
+        // Fetch 5 upcoming appointments
+        $appointments = Appointment::orderBy('date', 'asc')->take(5)->get();
 
         return view('admin-dashboard', ['appointments' => $appointments]);
     }
 
     public function appointments()
     {
-        // Fetch appointments categorized by status
-        $todayAppointments = Appointment::whereDate('date', today())->get();
-        $upcomingAppointments = Appointment::where('date', '>', today())->get();
-        $previousAppointments = Appointment::where('date', '<', today())->get();
-
-        return view('admin-appointments', [
-            'todayAppointments' => $todayAppointments,
-            'upcomingAppointments' => $upcomingAppointments,
-            'previousAppointments' => $previousAppointments,
-        ]);
+        $appointments = Appointment::all();
+        return view('admin-appointment', ['appointments' => $appointments]);
     }
 
+    public function clients()
+    {
+        // Fetch data if necessary from the database
+        $clients = Client::all(); // Assuming you have a Client model
 
+        return view('admin-clients', ['clients' => $clients]);
+    }
+
+    public function bills()
+    {
+        // Fetch invoices from the database
+        $invoices = Invoice::all(); // Assuming an Invoice model is used
+        return view('admin-billing', compact('invoices'));
+    }
+
+    public function calendar()
+    {
+        // Fetch invoices from the database
+       // $invoices = Invoice::all(); // Assuming an Invoice model is used
+        return view('admin-calendar', compact('calendar'));
+       // return view('admin-calendar');
+    }
+
+    public function caseLibrary()
+{
+    // Example data (replace with real database logic later)
+    $cases = [
+        ['title' => 'Case 1', 'description' => 'Case description 1'],
+        ['title' => 'Case 2', 'description' => 'Case description 2'],
+    ];
+    return view('admin-case-library', ['cases' => $cases]);
 }
 
+
+    /**
+     * Log the admin out
+     */
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+
+        // Invalidate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/admin/login');
+    }
+}

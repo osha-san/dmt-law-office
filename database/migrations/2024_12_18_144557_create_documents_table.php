@@ -6,17 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+  /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('appointments', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->string('type');           // e.g., Consultation
-            $table->string('client_name');    // Client's name
-            $table->time('time');             // Appointment time
-            $table->string('location');       // Appointment location
+            $table->string('name'); // Document name
+            $table->string('url'); // File path
+            $table->date('date');  // Date issued or received
+            $table->enum('type', ['incoming', 'outgoing']); // Document type
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('appointments');
+        Schema::dropIfExists('documents');
     }
 };

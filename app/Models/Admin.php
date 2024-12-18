@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Admin extends Authenticatable
 {
     use HasFactory;
+    protected $table = 'admins'; // Ensure this matches your database table
 
     protected $fillable = [
         'email',

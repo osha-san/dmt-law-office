@@ -1,0 +1,409 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    background-color: rgb(220, 220, 220);
+    height: 100vh;
+
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: 50px 1fr;
+    grid-template-areas:
+        "side head"
+        "side main";
+}
+
+.header {
+    background-color: white;
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: 0px 4px 26px 10px #00000011;
+}
+
+.sidebar {
+    background-color: #02031a;
+    height: 100vh;
+    grid-area: side;
+    position: fixed;
+    top: 0;
+    width: 80px;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 240px;
+}
+
+.logo {
+    color: white;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.logo h3 {
+    margin: 0;
+
+}
+
+.logo img {
+    margin: 30px 20px 30px 15px;
+    width: 45px;
+    height: auto;
+}
+
+.navbar ul li a {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.navbar ul li a:hover {
+    background-color: #a88532;
+    border-radius: 10px;
+    margin: 0px 20px 0px 20px;
+}
+
+.navbar ul li img {
+    margin: 20px 30px 20px 30px;
+    width: 20px;
+}
+
+.navbar ul li.active img {
+  background-color: grey;
+}
+
+.logout {
+    margin-top: 130px;
+}
+
+.main {
+    background-color: #e6eaf0;
+    grid-area: main;
+    padding: 20px 20px 0px 20px;
+}
+
+.billings { /*palit*/
+    background-color: #ffffff;
+    border-radius: 30px 30px 0px 0px;
+    height: calc(100vh - 120px);
+    padding: 25px;
+}
+/*here*/
+.table-container p {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-size: 25px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 3% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: calc(100% - 150px);
+}
+
+.billTo {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.invoice-header .form-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input[type=number] {
+  border: none;
+  border-bottom: 2px solid black;
+  width: 100px;
+}
+
+select {
+  width: 150px;
+}
+
+.modal-content1 {
+  background-color: #fefefe;
+  margin: 18% auto;
+  padding: 30px;
+  border: 1px solid #888;
+  width: 25%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content1 h2 {
+  text-align: center;
+}
+
+.modal-content1 p {
+  text-align: center;
+  padding-top: 15px;
+}
+
+#cancelDecline {
+  background-color: rgb(231, 231, 231);
+  color: rgb(0, 0, 0);
+  width: 130px;
+}
+
+#confirmDecline {
+  background-color: #b30000;
+  color: white;
+}
+
+.decline-modal .modal-content {
+  top: 4;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.invoice-header {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #000;
+  margin: 20px 0;
+}
+
+.invoice-details {
+  width: 500px;
+  margin-bottom: 20px;
+}
+
+.invoice-details th,
+.invoice-details td {
+  padding: 8px;
+  text-align: left;
+}
+
+.total-amount {
+  text-align: right;
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+
+.payment-details .form-group {
+  margin-bottom: 10px;
+}
+
+.payment-details label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.payment-details input[type="text"] {
+  width: 480px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.proof-of-payment-container {
+  display: flex;
+  gap: 10px;
+}
+
+.proof-of-payment-container input[type="text"] {
+  flex-grow: 1;
+}
+
+#viewProof {
+  padding: 8px 15px;
+  background-color: #ece8e8;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-actions2 {  /* Confirm Decline */
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  margin-left: 50px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  background-color: #029b07;
+  margin-top: 30px;
+  color: black;
+  font-weight: 600;
+  width: 160px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  color: white;
+}
+
+.confirmModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.confirmModal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid white;
+  width: 400px;
+  height: 200px;
+  border-radius: 35px;
+  text-align: center;
+}
+
+.closebtn p {
+  color: #888;
+}
+
+.question{
+  margin: 35px 15px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.closebtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+
+#rejectPayment {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+#rejectPayment:hover {
+  background-color: #b30000;
+  color: #ffffff;
+}
+
+#confirmPayment {
+  background-color: #055e11;
+  color: #fff;
+}
+
+.view-btn {
+  background-color: #186ea0;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background-color: #002544;
+}
+
+.status-paid {
+  color: #4caf50;
+}
+
+.status-not-paid {
+  color: #f44336;
+}
+
+#proofImage {
+  max-width: 100%;
+  height: auto;
+}
