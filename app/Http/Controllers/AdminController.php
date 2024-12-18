@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Admin;
 
+//for fetching appointments data in the database
+use App\Models\Appointment;
+
 class AdminController extends Controller
 {
     public function login(Request $request)
@@ -34,5 +37,29 @@ class AdminController extends Controller
     {
         return view('login-admin');
     }
+
+    //for fetching data from appointment model
+    public function dashboard()
+    {
+        $appointments = Appointment::orderBy('time', 'asc')->take(5)->get();
+
+        return view('admin-dashboard', ['appointments' => $appointments]);
+    }
+
+    public function appointments()
+    {
+        // Fetch appointments categorized by status
+        $todayAppointments = Appointment::whereDate('date', today())->get();
+        $upcomingAppointments = Appointment::where('date', '>', today())->get();
+        $previousAppointments = Appointment::where('date', '<', today())->get();
+
+        return view('admin-appointments', [
+            'todayAppointments' => $todayAppointments,
+            'upcomingAppointments' => $upcomingAppointments,
+            'previousAppointments' => $previousAppointments,
+        ]);
+    }
+
+
 }
 
