@@ -37,7 +37,7 @@
                     <p>To keep connected with us please</p>
                     <button class="sign-in-btn">Sign In</button>
                 </div>
-                <div class="right-side">
+                < class="right-side">
                     <h1>Create Account</h1>
                     <form action="{{ route('client.register.submit') }}" method="POST" id="registration-form">
 
@@ -72,6 +72,7 @@
                             <button type="submit" class="register-btn">Register</button>
                         </div>
                     </form>
+                   <p class="login-link">Already have an account? <a href="{{ route('client-login') }}">Log In</a></p>
 
             </div>
         </div>

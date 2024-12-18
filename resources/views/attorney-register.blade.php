@@ -66,7 +66,7 @@
                             <button type="submit" class="register-btn">Register</button>
                         </div>
                     </form>
-
+                    <p class="login-link">Already have an account? <a href="{{ route('attorney-login') }}">Log In</a></p>
 
                 </div>
             </div>
