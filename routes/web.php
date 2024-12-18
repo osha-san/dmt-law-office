@@ -15,10 +15,8 @@ use App\Http\Controllers\AdminController;
 
 
 
-// Home route
-Route::get('/', function () {
-    return view('welcome'); // Ensure this view exists in the resources/views directory
-});
+// Home route - redirect to Admin Login
+Route::get('/', [AdminController::class, 'showLoginForm'])->name('home');
 
 // Client registration view
 Route::view('/register/client', 'client-register')->name('client.register');
